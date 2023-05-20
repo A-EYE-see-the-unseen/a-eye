@@ -3,7 +3,7 @@ package com.dicoding.picodiploma.aeye.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
+import com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(view)
 
         binding.btnLogin.setOnClickListener {
-            val intent = Intent(this, DetectingActivity::class.java)
+            val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         }
     }

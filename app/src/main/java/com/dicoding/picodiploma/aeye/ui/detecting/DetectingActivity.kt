@@ -3,7 +3,7 @@ package com.dicoding.picodiploma.aeye.ui.detecting
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.dicoding.picodiploma.aeye.ui.login.LoginActivity
+import com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityDetectingBinding
 
 class DetectingActivity : AppCompatActivity() {
@@ -19,7 +19,7 @@ class DetectingActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.btnBerhenti.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         }
     }

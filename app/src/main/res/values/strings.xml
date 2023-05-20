@@ -5,4 +5,9 @@
     <string name="login">Login</string>
     <string name="berhenti">Berhenti</string>
     <string name="detecting">Detecting . . .</string>
+    <string name="logo_a_eye">Logo A-Eye</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mulai_deteksi">Mulai Deteksi</string>
+    <string name="buat_report_pdf">Buat Report PDF</string>
 </resources>
