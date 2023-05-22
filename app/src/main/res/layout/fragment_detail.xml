@@ -9,7 +9,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Catatan"
+        android:text="@string/catatan"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,11 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:minHeight="100dip"
-        android:minLines="1"
+        android:minLines="6"
+        android:hint="Text..."
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -44,16 +48,18 @@
         app:layout_constraintVertical_bias="0.009"
         android:background="@drawable/edittext_shadow" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnBerhenti"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
 
-        android:text="Submit"
-        android:textStyle="bold"
-        android:textSize="20sp"
+        android:text="@string/submit"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="18sp"
+        android:textColor="@color/white"
 
         android:padding="12dp"
+        android:background="@drawable/btn_submit"
 
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

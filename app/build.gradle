@@ -51,4 +51,8 @@ dependencies {
 
     //Fragment
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
+
+    //ItextPDF
+    implementation 'com.itextpdf:itextg:5.5.10'
+
 }

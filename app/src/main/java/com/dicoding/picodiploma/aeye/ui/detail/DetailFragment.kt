@@ -7,13 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.dicoding.picodiploma.loginactivity.R
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DetailFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DetailFragment : Fragment() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
