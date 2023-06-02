@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.dicoding.picodiploma.aeye.data.storage.SharedPref
 import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
 import com.dicoding.picodiploma.aeye.ui.login.LoginActivity
 import com.dicoding.picodiploma.loginactivity.R
@@ -23,6 +24,7 @@ import java.util.*
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDashboardBinding
+    lateinit var sharedPref: SharedPref
 
     //VARS
     private val STORAGE_CODE = 1001
@@ -31,7 +33,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
-    // gtw cara misahin ;-;
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -41,6 +42,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(view)
 
         supportActionBar?.hide()
+        sharedPref = SharedPref(this)
 
         val btnDetecting: Button = binding.btnStartDetecting
         btnDetecting.setOnClickListener(this)
@@ -66,7 +68,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                     savePDF()
                 }
             }
-            R.id.btnLogout -> startActivity(Intent(this, LoginActivity::class.java))
+            R.id.btnLogout -> {
+                sharedPref.isLogin = false
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
         }
     }
 
