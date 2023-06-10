@@ -1,10 +1,13 @@
 package com.dicoding.picodiploma.aeye.ui.login
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import com.dicoding.picodiploma.aeye.MainActivity
 import com.dicoding.picodiploma.aeye.data.response.LoginResponse
 import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
 import com.dicoding.picodiploma.aeye.data.storage.SharedPref
@@ -18,9 +21,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityLoginBinding
-//    lateinit var sharedPreference:
     lateinit var sharedPref: SharedPref
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,35 +30,42 @@ class LoginActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         sharedPref = SharedPref(this)
+        isNetworkAvailable(this)
 
-        if (sharedPref.isLogin) Intent(this, DashboardActivity::class.java).apply {
+        val savedToken = sharedPref.getToken()
+
+        if (savedToken != null) Intent(this, DashboardActivity::class.java).apply {
             startActivity(this)
             finish()
         }
 
         binding.btnLogin.setOnClickListener {
-            login()
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            when {
+                email.isEmpty() -> {
+                    binding.etEmail.error = "Masukkan Email"
+                    binding.etEmail.requestFocus()
+                }
+                password.isEmpty() -> {
+                    binding.etPassword.error = "Masukkan Password"
+                    binding.etPassword.requestFocus()
+                }
+                password.length < 8 -> {
+                    binding.etPassword.error = "Password harus terdiri dari setidaknya 8 karakter"
+                    binding.etPassword.requestFocus()
+                }
+                else -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    login(email, password)
+                }
+            }
         }
+
     }
 
-    private fun login() {
-
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
-
-        when {
-            email.isEmpty() -> {
-                binding.etEmail.error = "Masukkan Email"
-                binding.etEmail.requestFocus()
-                return
-            }
-            password.isEmpty() -> {
-                binding.etPassword.error = "Masukkan Password"
-                binding.etPassword.requestFocus()
-                return
-            }
-        }
-
+    private fun login(email: String, password: String) {
         ApiConfig.getApiService().login(email, password)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
@@ -65,31 +73,35 @@ class LoginActivity : AppCompatActivity() {
                     response: Response<LoginResponse>
                 ) {
                     if (response.isSuccessful) {
-//                            Toast.makeText(
-//                                applicationContext,
-//                                response.body()?.message,
-//                                Toast.LENGTH_LONG
-//                            ).show()
+                        val tokenManager = SharedPref(applicationContext)
+                        val token = response.body()?.token
+                        token?.let { tokenManager.saveToken(token)}
 
-//                        SharedPref.getInstance(applicationContext)
-//                            .saveUser(response.body()?.userResult!!)
-                        sharedPref.isLogin = true
-
+                        binding.progressBar.visibility = View.INVISIBLE
                         val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Email atau Password Salah",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        binding.tvDeniedMessage.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.INVISIBLE
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Toast.makeText(applicationContext, "Cek koneksi internet anda.", Toast.LENGTH_LONG).show()
                 }
             })
+    }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nw      = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            else -> false
+        }
     }
 
 }

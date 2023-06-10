@@ -54,6 +54,10 @@ dependencies {
 
     //ItextPDF
     implementation 'com.itextpdf:itextg:5.5.10'
+//    implementation 'com.itextpdf:itextpdf:5.5.13'
+    implementation 'com.itextpdf:itext7-core:7.1.16'
+    implementation 'com.itextpdf:layout:7.1.16'
+
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -63,4 +67,8 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.1.3"
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
+    //IO Socket
+    implementation('io.socket:socket.io-client:2.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 }

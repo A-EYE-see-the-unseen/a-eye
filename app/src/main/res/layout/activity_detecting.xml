@@ -23,11 +23,10 @@
         app:lottie_rawRes="@raw/cctv_animation" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvSearching"
         android:layout_width="0dp"
 
         android:layout_height="wrap_content"
-        android:text="@string/detecting"
         android:textSize="24sp"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -48,8 +47,8 @@
         android:fontFamily="@font/inter_bold"
 
         android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintEnd_toEndOf="@+id/tvSearching"
+        app:layout_constraintStart_toStartOf="@+id/tvSearching"
+        app:layout_constraintTop_toBottomOf="@+id/tvSearching" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

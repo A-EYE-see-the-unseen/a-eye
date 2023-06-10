@@ -2,25 +2,31 @@ package com.dicoding.picodiploma.aeye.ui.dashboard
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.dicoding.picodiploma.aeye.data.response.InstanceResponse
+import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
 import com.dicoding.picodiploma.aeye.data.storage.SharedPref
 import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
 import com.dicoding.picodiploma.aeye.ui.login.LoginActivity
-import com.dicoding.picodiploma.loginactivity.R
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityDashboardBinding
 import com.itextpdf.text.Document
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.pdf.PdfWriter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDashboardBinding
@@ -56,32 +62,42 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        when(v.id) {
-            R.id.btnStartDetecting -> startActivity(Intent(this, DetectingActivity::class.java))
-            R.id.btnReportPDF -> {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M &&
-                    checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE)
-                    requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), STORAGE_CODE)
+        when (v.id) {
+            com.dicoding.picodiploma.loginactivity.R.id.btnStartDetecting -> {
+                binding.progressBar.visibility = View.VISIBLE
+                startInstance()
+            }
+            com.dicoding.picodiploma.loginactivity.R.id.btnReportPDF -> {
+                if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        PERMISSIONS_STORAGE,
+                        REQUEST_EXTERNAL_STORAGE
+                    )
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        STORAGE_CODE
+                    )
                 } else {
                     savePDF()
                 }
             }
-            R.id.btnLogout -> {
-                sharedPref.isLogin = false
+            com.dicoding.picodiploma.loginactivity.R.id.btnLogout -> {
+                sharedPref.clearToken()
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }
     }
 
     private fun savePDF() {
+//        data class Item(val text: String, val imageUrl: String)
         val mDoc = Document()
         val mFileName = SimpleDateFormat(
             "yyyyMMdd_HHmmss",
             Locale.getDefault()
         ).format(System.currentTimeMillis())     //this can also be our time and date
-
 
         val mFilePath =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
@@ -90,9 +106,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         try {
             PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
             mDoc.open()
+            mDoc.addAuthor("CRLF's copy and pasted work")
 
             val data = "this new pdf yeyyyy. also uh, was created on ${mFileName}"
-            mDoc.addAuthor("CRLF's copy and pasted work")
             mDoc.add(Paragraph(data))
             mDoc.close()
             Toast.makeText(
@@ -118,7 +134,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         )                //this line doesn't exist in the tutorial
         when (requestCode) {
             STORAGE_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     savePDF()
                 } else {
                     Toast.makeText(
@@ -129,5 +145,41 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    private fun startInstance() {
+        //Start-Instance
+        ApiConfig.getApiService().startInstance()
+            .enqueue(object : Callback<InstanceResponse> {
+                override fun onResponse(
+                    call: Call<InstanceResponse>,
+                    response: Response<InstanceResponse>
+                ) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Instance Berhasil Dimulai !",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    runBlocking {
+                        Toast.makeText(
+                            applicationContext,
+                            "Mengalihkan ke Deteksi ...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        delay(3000)
+                        binding.progressBar.visibility = View.INVISIBLE
+                        val intent =
+                            Intent(this@DashboardActivity, DetectingActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onFailure(call: Call<InstanceResponse>, t: Throwable) {
+                    // Handle network failures or exceptions
+                    binding.progressBar.visibility = View.INVISIBLE
+                    Toast.makeText(applicationContext, "Cek koneksi internet anda.", Toast.LENGTH_LONG)
+                        .show()
+                }
+            })
     }
 }

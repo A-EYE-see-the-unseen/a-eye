@@ -8,5 +8,6 @@ data class UserData(
     val nip: String?,
 
     @field:SerializedName("nama_pengawas")
-    val nama_pengawas: String?
+    val nama_pengawas: String?,
+
 )
