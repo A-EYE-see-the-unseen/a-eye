@@ -36,8 +36,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            login()
+            //login()
+            forceLogin()
         }
+    }
+
+    private fun forceLogin(){
+        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+        startActivity(intent)
     }
 
     private fun login() {
