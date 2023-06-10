@@ -1,15 +1,12 @@
 package com.dicoding.picodiploma.aeye.ui.detecting
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.commit
 import com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity
 import com.dicoding.picodiploma.aeye.ui.detail.DetailFragment
-import com.dicoding.picodiploma.loginactivity.R
+import com.dicoding.picodiploma.aeye.ui.detail.DetectedActivity
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityDetectingBinding
 
 class DetectingActivity : AppCompatActivity() {
@@ -35,6 +32,7 @@ class DetectingActivity : AppCompatActivity() {
         val mSocket = SocketHandler.getSocket()
 
         supportActionBar?.hide()
+        binding.detectedScreen.visibility = View.GONE
 
         binding.btnBerhenti.setOnClickListener {
             val intent = Intent(this, DashboardActivity::class.java)
@@ -42,27 +40,28 @@ class DetectingActivity : AppCompatActivity() {
         }
 
         binding.btnTestingNewDetection.setOnClickListener {
+            var detectionImage = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
+            DetectedActivity.newInstance(detectionImage)
+//            val detectionDetailsFragmentManager = supportFragmentManager
+//            detectionDetailsFragmentManager.commit{
+//                replace(R.id.container, detectionDetailsFragment, DetailFragment::class.java.simpleName)
+//                addToBackStack(null)
+//            }
 
-            var detectionImage: String = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
-
-            val detectionDetailsFragment = DetailFragment.newInstance(detectionImage)
-
-
-            val detectionDetailsFragmentManager = supportFragmentManager
-            detectionDetailsFragmentManager.commit{
-                replace(R.id.container, detectionDetailsFragment, DetailFragment::class.java.simpleName)
-            }
-
-            //toggleVisibility(false)
-
+//            toggleVisibility(false)
+            val intent = Intent(this, DetectedActivity::class.java)
+//            intent.putExtra("key", detectionDetailsFragment)
+            startActivity(intent)
         }
     }
 
     fun toggleVisibility(show: Boolean){
         if (show) {
             binding.detectingScreen.visibility = View.VISIBLE
+            binding.detectedScreen.visibility = View.GONE
         } else {
             binding.detectingScreen.visibility = View.GONE
+            binding.detectedScreen.visibility = View.VISIBLE
         }
     }
 }

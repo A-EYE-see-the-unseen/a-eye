@@ -51,7 +51,6 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
 
@@ -79,7 +78,6 @@ class DetailFragment : Fragment() {
 
 
         btnSubmit.setOnClickListener{
-
             val note = catatanPengawas.text
 
             mSocket.emit("detection-confirm", note)
@@ -117,15 +115,23 @@ class DetailFragment : Fragment() {
                         Toast.makeText(view.context, message, Toast.LENGTH_SHORT).show()
                         toastShown = true
                     }
-
                     if (toastShown){
-                        destroyFragment()       //THIS DOESN'T WORK UPON FIRST CLICK, AND CRASHES UPON SECOND FRAGMENT CLICK
+//                        destroyFragment()       //THIS DOESN'T WORK UPON FIRST CLICK, AND CRASHES UPON SECOND FRAGMENT CLICK
+//                        parentFragmentManager.beginTransaction().apply {
+//                            addToBackStack(null)
+//                            commit()
+//                        }
+                        onDestroyView()
                     }
 
                 }
             })
-
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
     }
 
 }
