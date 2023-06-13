@@ -3,6 +3,7 @@ package com.dicoding.picodiploma.aeye.ui.detail
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
@@ -54,13 +55,18 @@ class DetectedActivity : AppCompatActivity() {
 
 
         btnSubmit.setOnClickListener{
-            val note = catatanPengawas.text
+            toggleVisibility(true)
 
-            mSocket.emit("detection-confirm", note)
+            val note = catatanPengawas.text
 
             var toastShown = false
 
             var finalMessage = "No Changes :("
+
+            //Trigger a dummy detection data to be received from server/socket
+            mSocket.emit("detection-confirm", note)
+
+            //Listening to socket for response from 'detection-confirm' trigger
             mSocket.on("confirmation-response") { args ->
                 val message = args[0] as String
                 Log.e("Message received", message)
@@ -69,7 +75,7 @@ class DetectedActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext, finalMessage, Toast.LENGTH_SHORT).show()
                     toastShown = true
                     runBlocking {
-                        delay(2000)
+                        delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
                         val intent = Intent(applicationContext, DetectingActivity::class.java)
                         startActivity(intent)
                     }
@@ -82,6 +88,7 @@ class DetectedActivity : AppCompatActivity() {
         }
 
         btnReject.setOnClickListener {
+            toggleVisibility(true)
             var message = "No Changes :("
             mSocket.emit("detection-reject")
             mSocket.on("confirmation-response", object : Emitter.Listener {
@@ -97,6 +104,15 @@ class DetectedActivity : AppCompatActivity() {
                     }
                 }
             })
+        }
+
+
+    }
+
+    fun toggleVisibility(isClicked: Boolean){
+        if (isClicked) {
+            binding.btnSubmit.visibility = View.GONE
+            binding.btnReject.visibility = View.GONE
         }
     }
 }

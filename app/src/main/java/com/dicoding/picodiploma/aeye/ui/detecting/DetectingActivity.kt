@@ -3,11 +3,14 @@ package com.dicoding.picodiploma.aeye.ui.detecting
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity
 import com.dicoding.picodiploma.aeye.ui.detail.DetailFragment
 import com.dicoding.picodiploma.aeye.ui.detail.DetectedActivity
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityDetectingBinding
+import io.socket.emitter.Emitter
 
 class DetectingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetectingBinding
@@ -37,11 +40,22 @@ class DetectingActivity : AppCompatActivity() {
         binding.btnBerhenti.setOnClickListener {
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
+            SocketHandler.closeConnection()
         }
 
         binding.btnTestingNewDetection.setOnClickListener {
+            mSocket.emit("detection-request")
             var detectionImage = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
-            DetectedActivity.newInstance(detectionImage)
+
+            mSocket.on("detection-request-response", object : Emitter.Listener {
+                override fun call(vararg args: Any?) {
+                    detectionImage = args[0] as String
+                    DetectedActivity.newInstance(detectionImage)
+                }
+            })
+
+//            DetectedActivity.newInstance(detectionImage)
+
 //            val detectionDetailsFragmentManager = supportFragmentManager
 //            detectionDetailsFragmentManager.commit{
 //                replace(R.id.container, detectionDetailsFragment, DetailFragment::class.java.simpleName)
@@ -49,9 +63,13 @@ class DetectingActivity : AppCompatActivity() {
 //            }
 
 //            toggleVisibility(false)
+
+
             val intent = Intent(this, DetectedActivity::class.java)
-//            intent.putExtra("key", detectionDetailsFragment)
+            //intent.putExtra("ARG_IMG_LINK", detectionImage)
             startActivity(intent)
+
+
         }
     }
 
