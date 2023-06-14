@@ -14,7 +14,7 @@ object SocketHandler {
         try {
             //mSocket = socket("http://10.0.2.2:3000")
             //mSocket = socket("https://backend-dot-adroit-sol-378614.et.r.appspot.com")
-            mSocket = socket("http://192.168.1.4:3000")
+            mSocket = socket("https://a-eye-project.et.r.appspot.com/")
         } catch (e: URISyntaxException) {
             Log.e("SocketException", e.message.toString())
         }

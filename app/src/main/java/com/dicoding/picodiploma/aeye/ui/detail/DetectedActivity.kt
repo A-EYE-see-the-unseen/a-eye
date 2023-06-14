@@ -54,7 +54,7 @@ class DetectedActivity : AppCompatActivity() {
             .into(detectionImage)
 
 
-        btnSubmit.setOnClickListener{
+        btnSubmit.setOnClickListener{//TODO ISI FUNGSI API
             toggleVisibility(true)
 
             val note = catatanPengawas.text
@@ -63,15 +63,7 @@ class DetectedActivity : AppCompatActivity() {
 
             var finalMessage = "No Changes :("
 
-            //Trigger a dummy detection data to be received from server/socket
-            mSocket.emit("detection-confirm", note)
-
-            //Listening to socket for response from 'detection-confirm' trigger
-            mSocket.on("confirmation-response") { args ->
-                val message = args[0] as String
-                Log.e("Message received", message)
-                finalMessage = message
-                runOnUiThread {
+            runOnUiThread {
                     Toast.makeText(applicationContext, finalMessage, Toast.LENGTH_SHORT).show()
                     toastShown = true
                     runBlocking {
@@ -80,30 +72,49 @@ class DetectedActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                 }
-                if (toastShown) {
-                    val intent = Intent(applicationContext, DetectingActivity::class.java)
-                    startActivity(intent)
-                }
-            }
+
+
+            //Trigger a dummy detection data to be received from server/socket
+//            mSocket.emit("detection-confirm", note)
+//
+//            //Listening to socket for response from 'detection-confirm' trigger
+//            mSocket.on("confirmation-response") { args ->
+//                val message = args[0] as String
+//                Log.e("Message received", message)
+//                finalMessage = message
+//                runOnUiThread {
+//                    Toast.makeText(applicationContext, finalMessage, Toast.LENGTH_SHORT).show()
+//                    toastShown = true
+//                    runBlocking {
+//                        delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
+//                        val intent = Intent(applicationContext, DetectingActivity::class.java)
+//                        startActivity(intent)
+//                    }
+//                }
+//                if (toastShown) {
+//                    val intent = Intent(applicationContext, DetectingActivity::class.java)
+//                    startActivity(intent)
+//                }
+//            }
         }
 
-        btnReject.setOnClickListener {
+        btnReject.setOnClickListener {  //TODO ISI FUNGSI API
             toggleVisibility(true)
-            var message = "No Changes :("
-            mSocket.emit("detection-reject")
-            mSocket.on("confirmation-response", object : Emitter.Listener {
-                override fun call(vararg args: Any?) {
-                    message = args[0] as String
-                    runOnUiThread{
-                        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
-                        runBlocking {
-                            delay(2000)
-                            val intent = Intent(applicationContext, DetectingActivity::class.java)
-                            startActivity(intent)
-                        }
-                    }
-                }
-            })
+//            var message = "No Changes :("
+//            mSocket.emit("detection-reject")
+//            mSocket.on("confirmation-response", object : Emitter.Listener {
+//                override fun call(vararg args: Any?) {
+//                    message = args[0] as String
+//                    runOnUiThread{
+//                        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+//                        runBlocking {
+//                            delay(2000)
+//                            val intent = Intent(applicationContext, DetectingActivity::class.java)
+//                            startActivity(intent)
+//                        }
+//                    }
+//                }
+//            })
         }
 
 

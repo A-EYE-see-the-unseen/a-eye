@@ -43,16 +43,45 @@ class DetectingActivity : AppCompatActivity() {
             SocketHandler.closeConnection()
         }
 
+        mSocket.on("hasil", object : Emitter.Listener {
+            override fun call(vararg args: Any?) {
+                val img_url = args[0] as String
+                Log.e("socketerino", img_url)
+                DetectedActivity.newInstance(img_url)
+                val intent = Intent(this@DetectingActivity, DetectedActivity::class.java)
+                //intent.putExtra("ARG_IMG_LINK", detectionImage)
+                startActivity(intent)
+            }
+        })
+
+        binding.btnSocketCheck.setOnClickListener{
+            mSocket.emit("hasil-req")
+            mSocket.on("hasil", object : Emitter.Listener {
+                override fun call(vararg args: Any?) {
+                    val img_url = args[0] as String
+                    Log.e("socketer", img_url)
+                }
+            })
+        }
+
         binding.btnTestingNewDetection.setOnClickListener {
-            mSocket.emit("detection-request")
+            //mSocket.emit("detection-request")
+            mSocket.emit("send")
             var detectionImage = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
 
-            mSocket.on("detection-request-response", object : Emitter.Listener {
+            mSocket.on("hasil", object : Emitter.Listener {
                 override fun call(vararg args: Any?) {
                     detectionImage = args[0] as String
                     DetectedActivity.newInstance(detectionImage)
                 }
             })
+
+//            mSocket.on("detection-request-response", object : Emitter.Listener {
+//                override fun call(vararg args: Any?) {
+//                    detectionImage = args[0] as String
+//                    DetectedActivity.newInstance(detectionImage)
+//                }
+//            })
 
 //            DetectedActivity.newInstance(detectionImage)
 
