@@ -34,6 +34,20 @@ class SharedPref constructor(context: Context) {
         sharedPreferences.edit().remove("TOKEN_KEY").apply()
     }
 
+//    fun saveId(id: Int) {
+//        sharedPreferences.edit().putInt("ID",id).apply()
+//    }
+//
+//    fun getId(): Int {
+//        return sharedPreferences.getInt("ID", 15)
+//    }
+//
+//    fun clearId() {
+//        sharedPreferences.edit().remove("ID").apply()
+//    }
+
+
+
 //    fun saveUser(loginResponse: LoginResponse) {
 //        val editor = sharedPreferences.edit()
 //

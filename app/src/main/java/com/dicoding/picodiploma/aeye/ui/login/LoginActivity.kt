@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import com.dicoding.picodiploma.aeye.data.response.LoginResponse
 import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
 import com.dicoding.picodiploma.aeye.data.storage.SharedPref
@@ -20,7 +21,7 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
     lateinit var sharedPref: SharedPref
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,11 +59,11 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else -> {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.btnLogin.isEnabled = false
                     login(email, password)
                 }
             }
         }
-
     }
 
     private fun login(email: String, password: String) {
@@ -73,21 +74,27 @@ class LoginActivity : AppCompatActivity() {
                     response: Response<LoginResponse>
                 ) {
                     if (response.isSuccessful) {
-                        val tokenManager = SharedPref(applicationContext)
+                        val sessionManager = SharedPref(applicationContext)
                         val token = response.body()?.token
-                        token?.let { tokenManager.saveToken(token)}
+//                        val idPengawas = response.body()?.userResult?.id_pengawas
+
+                        token?.let { sessionManager.saveToken(token)}
+//                        idPengawas?.let { sessionManager.saveId(idPengawas) }
 
                         binding.progressBar.visibility = View.INVISIBLE
+                        binding.btnLogin.isEnabled = true
                         val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-                        startActivity(intent)
+                        startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
                     } else {
                         binding.tvDeniedMessage.visibility = View.VISIBLE
                         binding.progressBar.visibility = View.INVISIBLE
+                        binding.btnLogin.isEnabled = true
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     binding.progressBar.visibility = View.INVISIBLE
+                    binding.btnLogin.isEnabled = true
                     Toast.makeText(applicationContext, "Cek koneksi internet anda.", Toast.LENGTH_LONG).show()
                 }
             })
@@ -95,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val nw      = connectivityManager.activeNetwork ?: return false
+        val nw = connectivityManager.activeNetwork ?: return false
         val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
         return when {
             actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -103,5 +110,4 @@ class LoginActivity : AppCompatActivity() {
             else -> false
         }
     }
-
 }

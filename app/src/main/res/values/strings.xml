@@ -6,7 +6,7 @@
     <string name="berhenti">Berhenti</string>
     <string name="detecting">Mencari</string>
     <string name="logo_a_eye">Logo A-Eye</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mulai_deteksi">Mulai Deteksi</string>
     <string name="buat_report_pdf">Buat Report PDF</string>
@@ -15,4 +15,12 @@
     <string name="submit">Submit</string>
     <string name="email_atau_password_salah">Email atau Password Salah</string>
     <string name="searching">Searching</string>
+    <string name="tidak">Tidak</string>
+    <string name="mencari">Mencari ...</string>
+    <string name="iya">Iya</string>
+    <string name="apakah_anda_yakin_ingin_berhenti_deteksi">Apakah anda yakin ingin berhenti deteksi ?</string>
+    <string name="berhenti_deteksi">Berhenti Deteksi</string>
+    <string name="apakah_anda_yakin_ingin_mulai_deteksi">Apakah anda yakin ingin mulai deteksi ?</string>
+    <string name="membuat_report">Membuat Report ...</string>
+    <string name="apakah_anda_yakin_ingin_logout">Apakah anda yakin ingin logout ?</string>
 </resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="@color/greyish"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="@string/mulai_deteksi"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/apakah_anda_yakin_ingin_mulai_deteksi"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTidakDeteksi"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start"
+                android:layout_margin="30dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/tidak"
+                android:textAllCaps="false"
+                android:textColor="@color/cyan"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnIyaDeteksi"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end"
+                android:layout_margin="30dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/dark_blue"
+                android:text="@string/iya"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

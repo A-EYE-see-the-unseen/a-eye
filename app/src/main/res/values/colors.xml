@@ -9,8 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark_red">#A2001D</color>
 
-    //App Color Pallete
-    <color name="ligh_blue">#AFD3E2</color>
+    //App Color Pallet
+    <color name="light_blue">#AFD3E2</color>
+    <color name="greyish">#F4FCFF</color>
     <color name="cyan">#19A7CE</color>
     <color name="dark_blue">#146C94</color>
 </resources>
