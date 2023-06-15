@@ -59,13 +59,10 @@ class DetectedActivity : AppCompatActivity() {
 
             val note = catatanPengawas.text
 
-            var toastShown = false
-
-            var finalMessage = "No Changes :("
 
             runOnUiThread {
-                    Toast.makeText(applicationContext, finalMessage, Toast.LENGTH_SHORT).show()
-                    toastShown = true
+                    Toast.makeText(applicationContext, "Submitted", Toast.LENGTH_SHORT).show()
+
                     runBlocking {
                         delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
                         val intent = Intent(applicationContext, DetectingActivity::class.java)
@@ -73,11 +70,20 @@ class DetectedActivity : AppCompatActivity() {
                     }
             }
 
-            
+
         }
 
         btnReject.setOnClickListener {  //TODO ISI FUNGSI API
             toggleVisibility(true)
+            runOnUiThread {
+                Toast.makeText(applicationContext, "Rejected.", Toast.LENGTH_SHORT).show()
+
+                runBlocking {
+                    delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
+                    val intent = Intent(applicationContext, DetectingActivity::class.java)
+                    startActivity(intent)
+                }
+            }
 
         }
 

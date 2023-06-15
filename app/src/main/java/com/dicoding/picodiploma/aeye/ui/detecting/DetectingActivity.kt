@@ -54,52 +54,33 @@ class DetectingActivity : AppCompatActivity() {
             }
         })
 
-        binding.btnSocketCheck.setOnClickListener{
-            mSocket.emit("hasil-req")
-            mSocket.on("hasil", object : Emitter.Listener {
-                override fun call(vararg args: Any?) {
-                    val img_url = args[0] as String
-                    Log.e("socketer", img_url)
-                }
-            })
-        }
-
-        binding.btnTestingNewDetection.setOnClickListener {
-            //mSocket.emit("detection-request")
-            mSocket.emit("send")
-            var detectionImage = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
-
-            mSocket.on("hasil", object : Emitter.Listener {
-                override fun call(vararg args: Any?) {
-                    detectionImage = args[0] as String
-                    DetectedActivity.newInstance(detectionImage)
-                }
-            })
-
-//            mSocket.on("detection-request-response", object : Emitter.Listener {
+//        binding.btnSocketCheck.setOnClickListener{
+//            mSocket.emit("hasil-req")
+//            mSocket.on("hasil", object : Emitter.Listener {
+//                override fun call(vararg args: Any?) {
+//                    val img_url = args[0] as String
+//                    Log.e("socketer", img_url)
+//                }
+//            })
+//        }
+//
+//        binding.btnTestingNewDetection.setOnClickListener {
+//            //mSocket.emit("detection-request")
+//            mSocket.emit("send")
+//            var detectionImage = "https://en.meming.world/images/en/d/d0/Crying_Cat.jpg"
+//
+//            mSocket.on("hasil", object : Emitter.Listener {
 //                override fun call(vararg args: Any?) {
 //                    detectionImage = args[0] as String
 //                    DetectedActivity.newInstance(detectionImage)
 //                }
 //            })
-
-//            DetectedActivity.newInstance(detectionImage)
-
-//            val detectionDetailsFragmentManager = supportFragmentManager
-//            detectionDetailsFragmentManager.commit{
-//                replace(R.id.container, detectionDetailsFragment, DetailFragment::class.java.simpleName)
-//                addToBackStack(null)
-//            }
-
-//            toggleVisibility(false)
-
-
-            val intent = Intent(this, DetectedActivity::class.java)
-            //intent.putExtra("ARG_IMG_LINK", detectionImage)
-            startActivity(intent)
-
-
-        }
+//
+//
+//            val intent = Intent(this, DetectedActivity::class.java)
+//            //intent.putExtra("ARG_IMG_LINK", detectionImage)
+//            startActivity(intent)
+    // }
     }
 
     fun toggleVisibility(show: Boolean){
