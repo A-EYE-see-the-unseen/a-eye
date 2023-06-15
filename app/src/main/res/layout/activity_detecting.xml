@@ -21,6 +21,7 @@
             app:flow_horizontalAlign="center"
             app:flow_verticalAlign="center"
 
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -31,20 +32,22 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/cctv_animation" />
 
+
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tvSearching"
             android:layout_width="0dp"
 
             android:layout_height="wrap_content"
-            android:text="@string/detecting"
-            android:textSize="24sp"
+            android:text="@string/mencari"
             android:textAlignment="center"
             android:textColor="@color/black"
-
-            android:layout_marginTop="16dp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/lottieAnimationView"
             app:layout_constraintStart_toStartOf="@+id/lottieAnimationView"
             app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+
+
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBerhenti"
@@ -52,14 +55,16 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_berhenti"
 
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/tvSearching"
+            app:layout_constraintStart_toStartOf="@+id/tvSearching"
+            app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+
             android:text="@string/berhenti"
             android:textColor="@color/white"
             android:fontFamily="@font/inter_bold"
 
-            android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -14,8 +14,7 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                    //Ganti Nanti
-                .baseUrl("http://192.168.18.87:3000/api/")
+                .baseUrl("https://a-eye-project.et.r.appspot.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
