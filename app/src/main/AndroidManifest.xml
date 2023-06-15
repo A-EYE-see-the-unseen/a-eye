@@ -17,8 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name="com.dicoding.picodiploma.aeye.ui.report.ReportActivity"
-            android:exported="false" />
+
+            android:name="com.dicoding.picodiploma.aeye.ui.detail.DetectedActivity"
+            android:exported="false"
+            android:label="@string/title_activity_detected"
+            android:theme="@style/Theme.LoginActivity.NoActionBar" />
+
         <activity
             android:name="com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity"
             android:exported="false" />

@@ -41,30 +41,17 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
+            //TODO Pass email and password to login() below
+            //login()
 
-            when {
-                email.isEmpty() -> {
-                    binding.etEmail.error = "Masukkan Email"
-                    binding.etEmail.requestFocus()
-                }
-                password.isEmpty() -> {
-                    binding.etPassword.error = "Masukkan Password"
-                    binding.etPassword.requestFocus()
-                }
-                password.length < 8 -> {
-                    binding.etPassword.error = "Password harus terdiri dari setidaknya 8 karakter"
-                    binding.etPassword.requestFocus()
-                }
-                else -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.btnLogin.isEnabled = false
-                    login(email, password)
-                }
-            }
         }
     }
+
+    private fun forceLogin(){
+        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+        startActivity(intent)
+    }
+
 
     private fun login(email: String, password: String) {
         ApiConfig.getApiService().login(email, password)

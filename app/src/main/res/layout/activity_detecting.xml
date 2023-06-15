@@ -1,56 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/container"
     tools:context="com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/detecting_screen">
 
-        app:flow_horizontalAlign="center"
-        app:flow_verticalAlign="center"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/cctv_animation" />
+            app:flow_horizontalAlign="center"
+            app:flow_verticalAlign="center"
 
-    <TextView
-        android:id="@+id/tvSearching"
-        android:layout_width="0dp"
 
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="@string/mencari"
-        android:textAlignment="center"
-        android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
 
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/lottieAnimationView"
-        app:layout_constraintStart_toStartOf="@+id/lottieAnimationView"
-        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.37"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/cctv_animation" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBerhenti"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
 
-        android:background="@drawable/btn_berhenti"
+        <TextView
+            android:id="@+id/tvSearching"
+            android:layout_width="0dp"
 
-        android:text="@string/berhenti"
-        android:textColor="@color/white"
-        android:fontFamily="@font/inter_bold"
+            android:layout_height="wrap_content"
+            android:text="@string/mencari"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/lottieAnimationView"
+            app:layout_constraintStart_toStartOf="@+id/lottieAnimationView"
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
 
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvSearching"
-        app:layout_constraintStart_toStartOf="@+id/tvSearching"
-        app:layout_constraintTop_toBottomOf="@+id/tvSearching" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBerhenti"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_berhenti"
+
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@+id/tvSearching"
+            app:layout_constraintStart_toStartOf="@+id/tvSearching"
+            app:layout_constraintTop_toBottomOf="@+id/tvSearching"
+
+            android:text="@string/berhenti"
+            android:textColor="@color/white"
+            android:fontFamily="@font/inter_bold"
+
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detected_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
