@@ -1,9 +1,6 @@
 package com.dicoding.picodiploma.aeye.data.retrofit
 
-import com.dicoding.picodiploma.aeye.data.response.InstanceResponse
-import com.dicoding.picodiploma.aeye.data.response.LoginResponse
-import com.dicoding.picodiploma.aeye.data.response.ReportResponse
-import com.dicoding.picodiploma.aeye.data.response.VerifyResponse
+import com.dicoding.picodiploma.aeye.data.response.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -15,10 +12,18 @@ interface ApiService {
         @Field("password") password: String
     ): Call<LoginResponse>
 
-    @GET("verify-token")
-    fun verifyToken(
+    @POST("logout")
+    fun logout(
         @Header("Authorization") token: String
-    ): Call<VerifyResponse>
+    ): Call<LogoutResponse>
+
+    @FormUrlEncoded
+    @POST("store-report")
+    fun storeReport(
+        @Header("Authorization") token: String,
+        @Field("foto") foto: String,
+        @Field("keterangan") keterangan: String,
+    ): Call<ReportResponse>
 
     @POST("start-instance")
     fun startInstance(): Call<InstanceResponse>

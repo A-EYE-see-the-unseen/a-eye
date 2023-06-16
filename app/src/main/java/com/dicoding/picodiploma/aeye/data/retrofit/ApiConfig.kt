@@ -3,7 +3,8 @@ package com.dicoding.picodiploma.aeye.data.retrofit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
+
 
 class ApiConfig {
     companion object {
@@ -15,7 +16,7 @@ class ApiConfig {
                 .build()
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://a-eye-project.et.r.appspot.com/api/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create().asLenient())
                 .client(client)
                 .build()
             return retrofit.create(ApiService::class.java)

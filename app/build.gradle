@@ -57,15 +57,14 @@ dependencies {
     //Lottie
     implementation 'com.airbnb.android:lottie:6.0.0'
 
+    //Splash Screen
+    implementation"androidx.core:core-splashscreen:1.0.1"
+
     //Fragment
     implementation 'androidx.fragment:fragment-ktx:1.5.7'
 
-    //ItextPDF
-    implementation 'com.itextpdf:itextg:5.5.10'
-//    implementation 'com.itextpdf:itextpdf:5.5.13'
-    implementation 'com.itextpdf:itext7-core:7.1.16'
-    implementation 'com.itextpdf:layout:7.1.16'
-
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -79,4 +78,8 @@ dependencies {
     implementation('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }
+
+    //Moshi
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+
 }

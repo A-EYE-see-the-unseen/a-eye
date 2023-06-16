@@ -25,7 +25,8 @@
         android:layout_width="350dp"
         android:layout_height="220dp"
         android:layout_marginTop="40dp"
-        android:src="@drawable/snapshotsample"
+        android:src="@drawable/baseline_image_not_available_24"
+        android:background="@drawable/rounded_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +39,7 @@
         android:layout_marginRight="30dp"
         android:minHeight="100dip"
         android:minLines="6"
-        android:hint="Text..."
+        android:hint="@string/text"
         android:inputType="textMultiLine"
         android:gravity="top"
         android:padding="10dp"
@@ -54,7 +55,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
 
-        android:text="@string/submit"
+        android:text="@string/kirim"
         android:fontFamily="@font/inter_bold"
         android:textSize="18sp"
         android:textColor="@color/white"
@@ -78,7 +79,7 @@
         android:fontFamily="@font/inter_bold"
         android:padding="12dp"
 
-        android:text="@string/reject"
+        android:text="@string/tolak"
         android:textColor="@color/white"
 
         android:textSize="18sp"

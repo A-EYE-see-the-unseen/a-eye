@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import com.dicoding.picodiploma.aeye.data.response.InstanceResponse
-import com.dicoding.picodiploma.aeye.data.response.VerifyResponse
+import com.dicoding.picodiploma.aeye.data.response.LogoutResponse
 import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
 import com.dicoding.picodiploma.aeye.data.storage.SharedPref
 import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
@@ -26,12 +26,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDashboardBinding
     private lateinit var onBackPressedCallback: OnBackPressedCallback
     lateinit var sharedPref: SharedPref
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -51,9 +49,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         val btnLogout: Button = binding.btnLogout
         btnLogout.setOnClickListener(this)
 
-        val btnVerifyToken: Button = binding.btnVerifyToken
-        btnVerifyToken.setOnClickListener(this)
-
         binding.apply {
             btnStartDetecting.isEnabled = true
             btnReportPDF.isEnabled = true
@@ -72,7 +67,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
     private fun showAreYouSureDialog() {
         val builder = AlertDialog.Builder(this, R.style.CustomDialogAlert)
             .create()
-        val view = layoutInflater.inflate(R.layout.layout_custom_dialog_logout,null)
+        val view = layoutInflater.inflate(R.layout.layout_custom_dialog_logout, null)
 
         val btnTidak = view.findViewById<Button>(R.id.btnTidak)
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
@@ -83,11 +78,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         btnLogout.setOnClickListener {
-            sharedPref.clearToken()
-            startActivity(Intent(this, LoginActivity::class.java),
-                ActivityOptionsCompat.makeSceneTransitionAnimation(this@DashboardActivity)
-                    .toBundle()
-            )
+            stopInstance()
+            logout()
+            builder.dismiss()
         }
 
         builder.setCanceledOnTouchOutside(false)
@@ -100,38 +93,40 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                 startInstanceDialog()
             }
             R.id.btnReportPDF -> {
-                startActivity(
-                    Intent(this, ReportActivity::class.java),
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(this@DashboardActivity)
-                        .toBundle()
-                )
+                startActivity(Intent(this@DashboardActivity, ReportActivity::class.java))
             }
             R.id.btnLogout -> {
                 showAreYouSureDialog()
             }
-            R.id.btnVerifyToken -> {
-                ApiConfig.getApiService().verifyToken((sharedPref.getToken().toString()))
-                    .enqueue(object : Callback<VerifyResponse>{
-                        override fun onResponse(
-                            call: Call<VerifyResponse>,
-                            response: Response<VerifyResponse>
-                        ) {
-                            Log.e(TAG, response.body().toString())
-                        }
-
-                        override fun onFailure(call: Call<VerifyResponse>, t: Throwable) {
-                            Log.e(TAG, "Error Belum ada Token")
-                        }
-
-                    })
-            }
         }
+    }
+
+    private fun logout() {
+        ApiConfig.getApiService().logout("Bearer ${sharedPref.getToken().toString()}")
+            .enqueue(object : Callback<LogoutResponse> {
+                override fun onResponse(
+                    call: Call<LogoutResponse>,
+                    response: Response<LogoutResponse>
+                ) {
+                    sharedPref.clearToken()
+                    startActivity(
+                        Intent(this@DashboardActivity, LoginActivity::class.java),
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(this@DashboardActivity)
+                            .toBundle())
+                    finish()
+                }
+
+                override fun onFailure(call: Call<LogoutResponse>, t: Throwable) {
+                    Log.e(TAG, "Logout Gagal")
+                }
+
+            })
     }
 
     private fun startInstanceDialog() {
         val builder = AlertDialog.Builder(this, R.style.CustomDialogAlert)
             .create()
-        val view = layoutInflater.inflate(R.layout.layout_custom_dialog_deteksi,null)
+        val view = layoutInflater.inflate(R.layout.layout_custom_dialog_deteksi, null)
 
         val btnTidakDeteksi = view.findViewById<Button>(R.id.btnTidakDeteksi)
         val btnIyaDeteksi = view.findViewById<Button>(R.id.btnIyaDeteksi)
@@ -144,19 +139,19 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
         btnIyaDeteksi.setOnClickListener {
             startInstance()
             binding.progressBar.visibility = View.VISIBLE
-            builder.dismiss()
             binding.apply {
                 btnReportPDF.isEnabled = false
                 btnLogout.isEnabled = false
                 btnStartDetecting.isEnabled = false
             }
+            builder.dismiss()
         }
 
         builder.setCanceledOnTouchOutside(false)
         builder.show()
     }
 
-    private fun startInstance(){
+    private fun startInstance() {
         //Start-Instance
         ApiConfig.getApiService().startInstance()
             .enqueue(object : Callback<InstanceResponse> {
@@ -198,5 +193,32 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener {
                         .show()
                 }
             })
+    }
+
+    fun stopInstance() {
+        //Stop Instance
+        ApiConfig.getApiService().stopInstance()
+            .enqueue(object : Callback<InstanceResponse> {
+                override fun onResponse(
+                    call: Call<InstanceResponse>,
+                    response: Response<InstanceResponse>
+                ) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Instance Berhasil Dihentikan.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onFailure(call: Call<InstanceResponse>, t: Throwable) {
+                    // Handle network failures or exceptions
+                    Toast.makeText(
+                        applicationContext,
+                        "Cek koneksi internet anda.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
+
     }
 }

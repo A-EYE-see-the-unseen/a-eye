@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity">
+    tools:context="com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity"
+    android:theme="@style/Theme.LoginActivity">
 
     <ImageView
         android:id="@+id/ivLogo"
@@ -13,7 +14,7 @@
 
         android:layout_marginTop="32dp"
 
-        android:src="@drawable/logo_aeye"
+        android:src="@drawable/logo_aeye_dashboard"
         android:contentDescription="@string/logo_a_eye"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,14 +83,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
-
-    <Button
-        android:id="@+id/btnVerifyToken"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Verify Token"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,32 +1,25 @@
 <resources>
     <string name="app_name">A-Eye</string>
-    <string name="password">Password</string>
-    <string name="username">Username</string>
-    <string name="login">Login</string>
     <string name="berhenti">Berhenti</string>
-    <string name="detecting">Mencari</string>
     <string name="logo_a_eye">Logo A-Eye</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--    Login Activity-->
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+
     <string name="mulai_deteksi">Mulai Deteksi</string>
     <string name="buat_report_pdf">Buat Report PDF</string>
     <string name="logout">Logout</string>
-    <string name="catatan">Catatan</string>
-    <string name="submit">Submit</string>
-
-    <string name="reject">Reject</string>
     <string name="title_activity_detected">DetectedActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+<!--    Fragment -->
+    <string name="tolak">Tolak</string>
+    <string name="kirim">Kirim</string>
+    <string name="text">Text...</string>
+    <string name="catatan">Catatan</string>
 
     <string name="email_atau_password_salah">Email atau Password Salah</string>
-    <string name="searching">Searching</string>
     <string name="tidak">Tidak</string>
     <string name="mencari">Mencari ...</string>
     <string name="iya">Iya</string>
@@ -35,5 +28,8 @@
     <string name="apakah_anda_yakin_ingin_mulai_deteksi">Apakah anda yakin ingin mulai deteksi ?</string>
     <string name="membuat_report">Membuat Report ...</string>
     <string name="apakah_anda_yakin_ingin_logout">Apakah anda yakin ingin logout ?</string>
+    <string name="selesai">Selesai</string>
+
+
 
 </resources>

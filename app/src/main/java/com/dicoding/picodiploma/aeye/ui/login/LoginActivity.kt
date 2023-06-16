@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.dicoding.picodiploma.aeye.data.response.LoginResponse
 import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
 import com.dicoding.picodiploma.aeye.data.storage.SharedPref
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -41,19 +43,33 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            //TODO Pass email and password to login() below
-            //login()
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
 
+            when {
+                email.isEmpty() -> {
+                    binding.etEmail.error = "Masukkan Email"
+                    binding.etEmail.requestFocus()
+                }
+                password.isEmpty() -> {
+                    binding.etPassword.error = "Masukkan Password"
+                    binding.etPassword.requestFocus()
+                }
+                password.length < 6 -> {
+                    binding.etPassword.error = "Password harus terdiri dari setidaknya 6 karakter"
+                    binding.etPassword.requestFocus()
+                }
+                else -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnLogin.isEnabled = false
+                    login(email, password)
+                }
+            }
         }
     }
 
-    private fun forceLogin(){
-        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-        startActivity(intent)
-    }
-
-
     private fun login(email: String, password: String) {
+
         ApiConfig.getApiService().login(email, password)
             .enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(
@@ -62,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         val sessionManager = SharedPref(applicationContext)
-                        val token = response.body()?.token
+                        val token = response.body()?.accessToken
 //                        val idPengawas = response.body()?.userResult?.id_pengawas
 
                         token?.let { sessionManager.saveToken(token)}
@@ -72,6 +88,7 @@ class LoginActivity : AppCompatActivity() {
                         binding.btnLogin.isEnabled = true
                         val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
                         startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this@LoginActivity).toBundle())
+                        finish()
                     } else {
                         binding.tvDeniedMessage.visibility = View.VISIBLE
                         binding.progressBar.visibility = View.INVISIBLE

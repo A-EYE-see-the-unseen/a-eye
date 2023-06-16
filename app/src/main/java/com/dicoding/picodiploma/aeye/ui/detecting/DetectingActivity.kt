@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.dicoding.picodiploma.aeye.ui.dashboard.DashboardActivity
 import com.dicoding.picodiploma.aeye.ui.detail.DetectedActivity
@@ -27,8 +26,6 @@ class DetectingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetectingBinding
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
-    //private lateinit var detectingScreen: ConstraintLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,16 +44,9 @@ class DetectingActivity : AppCompatActivity() {
         val mSocket = SocketHandler.getSocket()
 
         supportActionBar?.hide()
-        //binding.detectedScreen.visibility = View.GONE
 
         binding.btnBerhenti.setOnClickListener {
             showAreYouSureDialogStop()
-
-            //TODO make it so that this intent functions work after confirming showAreYouSuredialogStop()
-            val intent = Intent(this, DashboardActivity::class.java)
-            startActivity(intent)
-            SocketHandler.closeConnection()
-            //TODO make it so that yeah
         }
 
         //Creates new DetectedActivity upon new detection from socket
@@ -66,7 +56,6 @@ class DetectingActivity : AppCompatActivity() {
                 Log.e("socketerino", img_url)
                 DetectedActivity.newInstance(img_url)
                 val intent = Intent(this@DetectingActivity, DetectedActivity::class.java)
-                //intent.putExtra("ARG_IMG_LINK", detectionImage)
                 startActivity(intent)
             }
         })
@@ -94,6 +83,7 @@ class DetectingActivity : AppCompatActivity() {
         }
 
         btnLogout.setOnClickListener {
+            SocketHandler.closeConnection()
             stopInstance()
             builder.dismiss()
         }
@@ -102,7 +92,7 @@ class DetectingActivity : AppCompatActivity() {
         builder.show()
     }
 
-    private fun stopInstance() {
+    fun stopInstance() {
         //Stop Instance
         ApiConfig.getApiService().stopInstance()
             .enqueue(object : Callback<InstanceResponse> {

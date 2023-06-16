@@ -8,17 +8,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
 import com.dicoding.picodiploma.aeye.ui.detecting.SocketHandler
 import com.dicoding.picodiploma.loginactivity.R
-import com.dicoding.picodiploma.loginactivity.databinding.ActivityDashboardBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import io.socket.emitter.Emitter
 
 class DetailFragment : Fragment() {
@@ -116,11 +110,6 @@ class DetailFragment : Fragment() {
                         toastShown = true
                     }
                     if (toastShown){
-//                        destroyFragment()       //THIS DOESN'T WORK UPON FIRST CLICK, AND CRASHES UPON SECOND FRAGMENT CLICK
-//                        parentFragmentManager.beginTransaction().apply {
-//                            addToBackStack(null)
-//                            commit()
-//                        }
                         onDestroyView()
                     }
 

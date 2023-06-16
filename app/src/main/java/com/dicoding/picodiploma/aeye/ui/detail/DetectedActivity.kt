@@ -10,12 +10,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.bumptech.glide.Glide
+import com.dicoding.picodiploma.aeye.data.response.ReportResponse
+import com.dicoding.picodiploma.aeye.data.retrofit.ApiConfig
+import com.dicoding.picodiploma.aeye.data.storage.SharedPref
 import com.dicoding.picodiploma.aeye.ui.detecting.DetectingActivity
 import com.dicoding.picodiploma.aeye.ui.detecting.SocketHandler
 import com.dicoding.picodiploma.loginactivity.databinding.ActivityDetectedBinding
-import io.socket.emitter.Emitter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+
 
 class DetectedActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetectedBinding
@@ -24,6 +30,7 @@ class DetectedActivity : AppCompatActivity() {
     private lateinit var btnSubmit: AppCompatButton
     private lateinit var btnReject: AppCompatButton
     private lateinit var catatanPengawas: EditText
+    private lateinit var sharedPref: SharedPref
 
     val mSocket = SocketHandler.getSocket()
 
@@ -43,6 +50,10 @@ class DetectedActivity : AppCompatActivity() {
         binding = ActivityDetectedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Keterangan"
+
+        sharedPref = SharedPref(this)
+
         btnSubmit = binding.btnSubmit
         btnReject = binding.btnReject
         detectionImage = binding.detectionImage
@@ -59,12 +70,26 @@ class DetectedActivity : AppCompatActivity() {
 
             val note = catatanPengawas.text
 
+            //Store Report
+            ApiConfig.getApiService().storeReport("Bearer ${sharedPref.getToken().toString()}", ARG_IMG_LINK, note.toString())
+                .enqueue(object: Callback<ReportResponse> {
+                    override fun onResponse(
+                        call: Call<ReportResponse>,
+                        response: Response<ReportResponse>
+                    ) {
+                        Toast.makeText(this@DetectedActivity, "Upload Berhasil", Toast.LENGTH_LONG).show()
+                    }
+
+                    override fun onFailure(call: Call<ReportResponse>, t: Throwable) {
+                        Toast.makeText(this@DetectedActivity, t.message, Toast.LENGTH_LONG).show()
+                    }
+                })
 
             runOnUiThread {
-                    Toast.makeText(applicationContext, "Submitted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Terkirim!", Toast.LENGTH_SHORT).show()
 
                     runBlocking {
-                        delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
+                        delay(2000)
                         val intent = Intent(applicationContext, DetectingActivity::class.java)
                         startActivity(intent)
                     }
@@ -73,13 +98,13 @@ class DetectedActivity : AppCompatActivity() {
 
         }
 
-        btnReject.setOnClickListener {  //TODO ISI FUNGSI API
+        btnReject.setOnClickListener {
             toggleVisibility(true)
             runOnUiThread {
-                Toast.makeText(applicationContext, "Rejected.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Ditolak", Toast.LENGTH_SHORT).show()
 
                 runBlocking {
-                    delay(2000)                                                         //saia tidak suka solusi ini tapi yah mau diapa lagi :v
+                    delay(2000)
                     val intent = Intent(applicationContext, DetectingActivity::class.java)
                     startActivity(intent)
                 }

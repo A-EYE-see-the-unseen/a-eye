@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/blob_scene_haikei_2"
+    android:theme="@style/Theme.LoginActivity"
     tools:context="com.dicoding.picodiploma.aeye.ui.login.LoginActivity">
 
     <TextView
@@ -29,7 +30,7 @@
         android:layout_height="200dp"
 
         android:layout_marginTop="16dp"
-        android:src="@drawable/logo_aeye"
+        android:src="@drawable/aeye_logo"
         android:contentDescription="@string/logo_a_eye"
 
         app:layout_constraintEnd_toEndOf="parent"
